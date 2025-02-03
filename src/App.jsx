@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import animals from './animals'
-import { use } from 'react'
 
 function App() {
   const [animalName, setAnimal] = useState('')
@@ -8,19 +7,37 @@ function App() {
 
   const handleSubmit = e => {
     e.preventDefault()
-    setAnimalList(currentState => [
-      ...currentState,
-      { id: currentState[currentState.length - 1].id + 1, name: animalName },
-    ])
+    //add element
+    console.log(animalsList.length !== 0)
+    if (animalsList.length !== 0) {
+      setAnimalList(currentState => [
+        ...currentState,
+        { id: currentState[currentState.length - 1].id + 1, name: animalName },
+      ])
+    } else setAnimalList([{ id: 1, name: animalName }])
 
     setAnimal('')
   }
+  //remove element
+  const removeAnimal = id => {
+    setAnimalList(
+      animalsList.filter(elem => {
+        return elem.id !== id
+      }),
+    )
+  }
+
   return (
     <>
       <div>
         <ul>
           {animalsList.map(elem => {
-            return <li key={elem.id}>{elem.name}</li>
+            return (
+              <li key={elem.id}>
+                {elem.name}
+                <button onClick={() => removeAnimal(elem.id)}>-</button>
+              </li>
+            )
           })}
         </ul>
 
