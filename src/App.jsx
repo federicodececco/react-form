@@ -32,27 +32,48 @@ function App() {
   return (
     <>
       <div className='mx-auto my-4 w-md'>
-        <ul>
+        <ul className='my-2 border text-slate-200'>
           {animalsList.map(elem => {
+            let isEven = elem.id % 2
             return (
-              <li key={elem.id} className='columns-4 py-1'>
-                <div> {elem.name}</div>
-                <div>
-                  <button
-                    className='color-red on border px-3 font-black text-red-600 hover:bg-slate-200'
-                    onClick={() => removeAnimal(elem.id)}
+              <>
+                {' '}
+                {isEven ? (
+                  <li key={elem.id} className='columns-3 px-2 py-1'>
+                    <div className='text-black'> {elem.name}</div>
+                    <div>
+                      <button
+                        className='color-red on border px-3 font-black text-red-600 hover:bg-slate-200'
+                        onClick={() => removeAnimal(elem.id)}
+                      >
+                        X
+                      </button>
+                    </div>
+                  </li>
+                ) : (
+                  <li
+                    key={elem.id}
+                    className='columns-3 bg-slate-200 px-2 py-1'
                   >
-                    X
-                  </button>
-                </div>
-              </li>
+                    <div className='text-black'> {elem.name}</div>
+                    <div>
+                      <button
+                        className='color-red on border px-3 font-black text-red-600 hover:bg-white'
+                        onClick={() => removeAnimal(elem.id)}
+                      >
+                        X
+                      </button>
+                    </div>
+                  </li>
+                )}
+              </>
             )
           })}
         </ul>
 
         <form onSubmit={handleSubmit}>
           <input
-            className='border'
+            className='my-4 border px-1 text-emerald-800'
             name='name'
             type='text'
             value={animalName}
@@ -60,7 +81,12 @@ function App() {
               setAnimal(e.target.value)
             }}
           />
-          <button type='submit'> Aggiungi </button>
+          <button
+            type='submit'
+            className='mx-1 border-1 px-4 text-slate-900 hover:border-2'
+          >
+            Aggiungi
+          </button>
         </form>
       </div>
     </>
