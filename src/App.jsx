@@ -5,9 +5,10 @@ function App() {
   const [animalName, setAnimal] = useState('')
   const [animalsList, setAnimalList] = useState(animals)
 
+  //add element
   const handleSubmit = e => {
     e.preventDefault()
-    //add element
+
     console.log(animalsList.length !== 0)
     if (animalsList.length !== 0) {
       setAnimalList(currentState => [
@@ -18,6 +19,7 @@ function App() {
 
     setAnimal('')
   }
+
   //remove element
   const removeAnimal = id => {
     setAnimalList(
@@ -29,13 +31,20 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className='mx-auto my-4 w-md'>
         <ul>
           {animalsList.map(elem => {
             return (
-              <li key={elem.id}>
-                {elem.name}
-                <button onClick={() => removeAnimal(elem.id)}>-</button>
+              <li key={elem.id} className='columns-4 py-1'>
+                <div> {elem.name}</div>
+                <div>
+                  <button
+                    className='color-red on border px-3 font-black text-red-600 hover:bg-slate-200'
+                    onClick={() => removeAnimal(elem.id)}
+                  >
+                    X
+                  </button>
+                </div>
               </li>
             )
           })}
@@ -43,6 +52,7 @@ function App() {
 
         <form onSubmit={handleSubmit}>
           <input
+            className='border'
             name='name'
             type='text'
             value={animalName}
