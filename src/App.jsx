@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import animals from './animals'
 
-class Animal {
-  constructor(name, id) {
-    this.name = name
-    this.id = id
-  }
-}
-
 function App() {
   const [animalName, setAnimal] = useState('')
   const [animalsList, setAnimalList] = useState(animals)
@@ -36,24 +29,27 @@ function App() {
     )
   }
   //move element
-  const handleMove = (id, move) => {
-    if (move && id - 1) {
-      let primo = new Animal(animalsList[id - 1].name, animalsList[id - 1].id)
-      let secondo = {
-        name: animalsList[id].name,
-        id: animalsList[id].id,
-      }
-      animalsList.splice(id - 1, 2, secondo, primo)
-      console.log(animalsList)
-      setAnimalList(animalsList)
-      console.log('test')
-    }
+  const handleMove = (index, move) => {
+    //deep copy
+    let newAnima = JSON.parse(JSON.stringify(animalsList))
+    if (index === 0 && move) return
+    else if (index === animalsList.length - 1 && !move) return
+    else if (move) {
+      let tmp = newAnima[index - 1]
+      newAnima[index - 1] = newAnima[index]
+      newAnima[index] = tmp
+    } else if (!move) {
+      let tmp = newAnima[index + 1]
+      newAnima[index + 1] = newAnima[index]
+      newAnima[index] = tmp
+    } else return
+    setAnimalList(newAnima)
   }
   return (
     <>
       <div className='mx-auto my-4 w-md'>
         <ul className='my-2 border text-slate-200'>
-          {animalsList.map(elem => {
+          {animalsList.map((elem, index) => {
             let isEven = elem.id % 2
             return (
               <>
@@ -68,11 +64,19 @@ function App() {
                       >
                         X
                       </button>
+                    </div>
+                    <div className='columns-4 text-left'>
                       <button
                         className='text-black'
-                        onClick={() => handleMove(elem.id, true)}
+                        onClick={() => handleMove(index, true)}
                       >
-                        U
+                        <i className='fa-solid fa-arrow-up'></i>
+                      </button>
+                      <button
+                        className='text-black'
+                        onClick={() => handleMove(index, false)}
+                      >
+                        <i className='fa-solid fa-arrow-down'></i>
                       </button>
                     </div>
                   </li>
@@ -88,6 +92,20 @@ function App() {
                         onClick={() => removeAnimal(elem.id)}
                       >
                         X
+                      </button>
+                    </div>
+                    <div className='columns-4 text-left'>
+                      <button
+                        className='text-black'
+                        onClick={() => handleMove(index, true)}
+                      >
+                        <i className='fa-solid fa-arrow-up'></i>
+                      </button>
+                      <button
+                        className='text-black'
+                        onClick={() => handleMove(index, false)}
+                      >
+                        <i className='fa-solid fa-arrow-down'></i>
                       </button>
                     </div>
                   </li>
