@@ -1,6 +1,13 @@
 import { useState } from 'react'
 import animals from './animals'
 
+class Animal {
+  constructor(name, id) {
+    this.name = name
+    this.id = id
+  }
+}
+
 function App() {
   const [animalName, setAnimal] = useState('')
   const [animalsList, setAnimalList] = useState(animals)
@@ -28,7 +35,20 @@ function App() {
       }),
     )
   }
-
+  //move element
+  const handleMove = (id, move) => {
+    if (move && id - 1) {
+      let primo = new Animal(animalsList[id - 1].name, animalsList[id - 1].id)
+      let secondo = {
+        name: animalsList[id].name,
+        id: animalsList[id].id,
+      }
+      animalsList.splice(id - 1, 2, secondo, primo)
+      console.log(animalsList)
+      setAnimalList(animalsList)
+      console.log('test')
+    }
+  }
   return (
     <>
       <div className='mx-auto my-4 w-md'>
@@ -47,6 +67,12 @@ function App() {
                         onClick={() => removeAnimal(elem.id)}
                       >
                         X
+                      </button>
+                      <button
+                        className='text-black'
+                        onClick={() => handleMove(elem.id, true)}
+                      >
+                        U
                       </button>
                     </div>
                   </li>
